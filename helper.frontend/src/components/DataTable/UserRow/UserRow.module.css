@@ -1,0 +1,21 @@
+.editButton {
+  border: 1px solid rgb(184, 184, 70);
+  background-color: rgb(184, 184, 70);
+}
+
+.editButton:hover,
+.editButton:active {
+  background: #e2b605;
+  border-color: #e2b605;
+}
+
+.deleteButton {
+  border: 1px solid rgb(220, 108, 108);
+  background-color: rgb(206, 77, 77);
+}
+
+.deleteButton:hover,
+.deleteButton:active {
+  background: rgb(190, 41, 41);
+  border-color: rgb(190, 41, 41);
+}

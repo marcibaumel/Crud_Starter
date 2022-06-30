@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import classes from "./App.module.css";
 import { AddUser } from "./components/AddUser/AddUser";
 import { DataTable } from "./components/DataTable/DataTable";
 import Button from "./components/UI/Button/Button";
@@ -19,11 +19,11 @@ export const App = () => {
   const handleShowEditUserComponent = () => {
     setShowAddUserComponent(false);
     setShowAddButton(false);
-  }
+  };
 
   const handleHideEditUserComponent = () => {
     setShowAddButton(true);
-  } 
+  };
 
   useEffect(() => {
     fetch("https://localhost:44362/api/User")
@@ -32,14 +32,18 @@ export const App = () => {
   }, [userData]);
 
   return (
-    <div>
-      {(!showAddUserComponent && showAddButton) &&(
+    <div className={classes.placeHolder}>
+      {!showAddUserComponent && showAddButton && (
         <Button onClick={handleAddUserComponent}>Add User</Button>
       )}
       {showAddUserComponent && (
         <AddUser ClickHandler={handleAddUserComponent} />
       )}
-      <DataTable users={userData} showEditComponent={handleShowEditUserComponent} hideEditComponent={handleHideEditUserComponent}/>
+      <DataTable
+        users={userData}
+        showEditComponent={handleShowEditUserComponent}
+        hideEditComponent={handleHideEditUserComponent}
+      />
     </div>
   );
 };

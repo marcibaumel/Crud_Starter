@@ -1,7 +1,5 @@
 .table{
-    margin-top: 2rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 2rem auto;
 }
 .table table {
   font-family: arial, sans-serif;
@@ -25,7 +23,6 @@ th {
   text-align: center;
   font-size: larger;
 }
-
 
 .content{
  margin: 0;

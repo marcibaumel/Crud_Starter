@@ -22,10 +22,6 @@ export const UserRow = (props: IUserRowType) => {
 
   useEffect(() => {
     setData(props);
-
-    return () => {
-      //console.log("Updated user props");
-    };
   }, [props]);
 
   const handleUserClick = () => {

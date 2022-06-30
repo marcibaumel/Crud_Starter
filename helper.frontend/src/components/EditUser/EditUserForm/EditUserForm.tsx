@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import IUserDataModel from "../../../models/IUserDataModel";
 import Button from "../../UI/Button/Button";
 import { Card } from "../../UI/Card/Card";
@@ -28,17 +29,14 @@ export const EditUserForm = (props: userDataProps) => {
 
   const usernameChangeHandler: InputChangeEventHandler = (event) => {
     setUsername(event.target.value);
-    //console.log(event.target.value);
   };
 
   const emailChangeHandler: InputChangeEventHandler = (event) => {
     setEmail(event.target.value);
-    //console.log(event.target.value);
   };
 
   const genderChangeHandler: SelectChangeEventHandler = (event) => {
     setGender(event.target.value);
-    //console.log(event.target.value);
   };
 
   const onEditUserEvent = (event: React.SyntheticEvent) => {

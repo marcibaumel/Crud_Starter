@@ -6,11 +6,10 @@ import { EditUserForm } from "./EditUserForm/EditUserForm";
 interface ToggleEditPanel {
   ClickHandler: (user: IUserDataModel) => void;
   hideEdit: () => void;
-  user:IUserDataModel;
+  user: IUserDataModel;
 }
 
 export const EditUser = (props: ToggleEditPanel) => {
- 
   const onEditUserHandler = (user: IUserDataModel) => {
     fetch("https://localhost:44362/api/User", {
       mode: "cors",
@@ -34,7 +33,10 @@ export const EditUser = (props: ToggleEditPanel) => {
       <div className={classes.content}>
         <div>EditUser</div>
         <div>
-          <EditUserForm userData={props.user} onEditUserHandler={onEditUserHandler}/>
+          <EditUserForm
+            userData={props.user}
+            onEditUserHandler={onEditUserHandler}
+          />
         </div>
         <div>
           <Button onClick={props.hideEdit}>Hide Edit Panel</Button>

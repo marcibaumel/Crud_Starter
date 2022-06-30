@@ -26,6 +26,7 @@ export const UserRow = (props: IUserRowType) => {
 
   const handleUserClick = () => {
     props.toggleEditUserComponent(data);
+    window.scrollTo(0, 0)
   };
 
   return (

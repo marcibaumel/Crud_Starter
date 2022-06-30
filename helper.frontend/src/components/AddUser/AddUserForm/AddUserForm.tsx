@@ -34,7 +34,7 @@ export const AddUserForm = (props: UserHandler) => {
   const onAddUserEvent = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    if (username.length < 3 || username.length > 15) {
+    if (username.length < 3 && username.length > 15) {
       setUsernameError(true);
       return;
     } else {

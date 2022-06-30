@@ -44,7 +44,7 @@ export const EditUserForm = (props: userDataProps) => {
   const onEditUserEvent = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    if (username.length < 3 || username.length > 15) {
+    if (username.length < 3 && username.length > 15) {
       setUsernameError(true);
       return;
     } else {
@@ -92,7 +92,7 @@ export const EditUserForm = (props: userDataProps) => {
             value={email}
             type="email"
           />
-           {emailError && (
+          {emailError && (
             <p className={classes.ErrorParagraph}>Email format error</p>
           )}
 

@@ -41,8 +41,8 @@ namespace BackendPart.API.Controllers
         [HttpPost]
         public async Task<ActionResult<List<UserEntity>>> AddEntity(UserEntity user)
         {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match emailMatch = regex.Match(user.Email);
+            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var emailMatch = regex.Match(user.Email);
 
             if ((user.Username.Trim().Length > 3 && user.Username.Trim().Length < 15) && emailMatch.Success)
             {
@@ -60,8 +60,8 @@ namespace BackendPart.API.Controllers
         [HttpPut]
         public async Task<ActionResult<List<UserEntity>>> UpdateEntity([FromBody] UserEntity userRequest)
         {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match emailMatch = regex.Match(userRequest.Email);
+            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var emailMatch = regex.Match(userRequest.Email);
 
             if ((userRequest.Username.Trim().Length > 3 && userRequest.Username.Trim().Length < 15) && emailMatch.Success)
             {
@@ -89,6 +89,7 @@ namespace BackendPart.API.Controllers
         public async Task<ActionResult<List<UserEntity>>> DeleteEntityById(int id)
         {
             var user = await _context.Users.FindAsync(id);
+
             if (user == null)
             {
                 return BadRequest("User not founded");

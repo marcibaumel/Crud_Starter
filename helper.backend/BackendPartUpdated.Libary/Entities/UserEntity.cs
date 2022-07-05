@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace BackendPartUpdated.API.Entities
+namespace BackendPartUpdated.DataManagment.Entities
 {
     public class UserEntity
     {

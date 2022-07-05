@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using BackendPartUpdated.DataManagment.Entities;
+using FluentValidation;
 
 namespace BackendPartUpdated.API.Entities.Validators
 {

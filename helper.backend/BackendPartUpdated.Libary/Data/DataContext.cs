@@ -1,7 +1,7 @@
-﻿using BackendPartUpdated.API.Entities;
+﻿using BackendPartUpdated.DataManagment.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackendPartUpdated.API.Data
+namespace BackendPartUpdated.DataManagment.Data
 {
     public class DataContext : DbContext
     {

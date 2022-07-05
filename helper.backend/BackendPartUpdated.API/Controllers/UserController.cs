@@ -1,8 +1,9 @@
-﻿using BackendPartUpdated.API.Data;
-using BackendPartUpdated.API.Entities;
+﻿
+using BackendPartUpdated.API.DTO;
+using BackendPartUpdated.DataManagment.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+
 
 namespace BackendPartUpdated.API.Controllers
 {
@@ -10,76 +11,49 @@ namespace BackendPartUpdated.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IMediator _mediator;
 
-        public UserController(DataContext context)
+        public UserController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<UserEntity>>> Get()
         {
-            return Ok(await _context.Users.ToListAsync());
+            var userList = await _mediator.Send(new GetUserListQuery());
+            List<UserEntity> convertedListUser = new List<UserEntity>();
+            foreach (BackendPartUpdated.DataManagment.Entities.UserEntity userEntity in userList)
+            {
+                convertedListUser.Add(new UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+            }
+            return convertedListUser;
         }
 
+        /*
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEntity>> GetEntityById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return BadRequest("User not founded");
-            }
-            else
-            {
-                return Ok(user);
-            }
+            
         }
 
         [HttpPost]
         public async Task<ActionResult<List<UserEntity>>> AddEntity(UserEntity user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(await _context.Users.ToListAsync());
+           
         }
 
         [HttpPut]
         public async Task<ActionResult<List<UserEntity>>> UpdateEntity([FromBody] UserEntity userRequest)
         {
-            var user = await _context.Users.FindAsync(userRequest.Id);
-
-            if (user == null)
-            {
-                return BadRequest("User not founded");
-            }
-
-            user.Username = userRequest.Username;
-            user.Email = userRequest.Email;
-            user.Gender = userRequest.Gender;
-            await _context.SaveChangesAsync();
-
-            return Ok(await _context.Users.ToListAsync());
+           
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntity>>> DeleteEntityById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return BadRequest("User not founded");
-            }
-            else
-            {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-
-                return Ok(await _context.Users.ToListAsync());
-            }
+           
         }
+        */
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using BackendPartUpdated.API.DTO;
+using BackendPartUpdated.API.Services;
 using BackendPartUpdated.DataManagment.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,32 +12,27 @@ namespace BackendPartUpdated.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IUserService _userService;
 
-        public UserController(IMediator mediator)
+        public UserController(IUserService userService)
         {
-            _mediator = mediator;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<UserEntity>>> Get()
         {
-            var userList = await _mediator.Send(new GetUserListQuery());
-            List<UserEntity> convertedListUser = new List<UserEntity>();
-            foreach (BackendPartUpdated.DataManagment.Entities.UserEntity userEntity in userList)
-            {
-                convertedListUser.Add(new UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
-            }
-            return convertedListUser;
+            return await _userService.GetAllUser();
         }
 
-        /*
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEntity>> GetEntityById(int id)
         {
-            
+            return await _userService.GetUserById(id);
         }
 
+
+        /*
         [HttpPost]
         public async Task<ActionResult<List<UserEntity>>> AddEntity(UserEntity user)
         {

@@ -15,6 +15,14 @@
             Gender = gender;
         }
 
+        public UserEntity(BackendPartUpdated.DataManagment.Entities.UserEntity user)
+        {
+            Id = user.Id;
+            Username = user.Username;
+            Email = user.Email;
+            Gender = user.Gender;
+        }
+
         public UserEntity()
         {
         }

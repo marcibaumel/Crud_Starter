@@ -6,5 +6,6 @@ namespace BackendPartUpdated.API.Services
     {
         List<UserEntity> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList);
         Task<List<UserEntity>> GetAllUser();
+        Task<UserEntity> GetUserById(int id);
     }
 }

@@ -29,5 +29,11 @@ namespace BackendPartUpdated.API.Services
             var userList = await _mediator.Send(new GetUserListQuery());
             return userEntityConverter(userList);
         }
+
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            UserEntity user = new UserEntity(await _mediator.Send(new GetUserByIdQuery(id)));
+            return user;
+        }
     }
 }

@@ -1,4 +1,5 @@
 
+using BackendPartUpdated.API.Services;
 using BackendPartUpdated.DataManagment.Data;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -17,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 builder.Services.AddMediatR(typeof(DataRepository).Assembly);
+builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));

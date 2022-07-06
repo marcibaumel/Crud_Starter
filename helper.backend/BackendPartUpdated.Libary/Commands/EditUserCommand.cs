@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendPartUpdated.DataManagment.Queries
+namespace BackendPartUpdated.DataManagment.Commands
 {
-    public class GetUserListQuery : IRequest<List<UserEntity>> 
+    public record EditUserCommand(UserEntity user) : IRequest<List<UserEntity>>
     {
     }
-
 }

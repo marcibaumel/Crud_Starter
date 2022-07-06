@@ -11,5 +11,7 @@ namespace BackendPartUpdated.DataManagment.Data
     {
         List<UserEntity> GetUsers();
         UserEntity AddUser(UserEntity user);
+        Task<List<UserEntity>> DeleteUser(int id);
+        Task<List<UserEntity>> EditUser(UserEntity userEntity);
     }
 }

@@ -12,7 +12,6 @@ namespace BackendPartUpdated.DataManagment.Handlers
     public class GetUserByIdHandler: IRequestHandler<GetUserByIdQuery, UserEntity>
     {
         private readonly IMediator _mediator;
-
         public GetUserByIdHandler(IMediator mediator)
         {
             _mediator = mediator;

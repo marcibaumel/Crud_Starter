@@ -13,7 +13,6 @@ namespace BackendPartUpdated.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -31,25 +30,22 @@ namespace BackendPartUpdated.API.Controllers
             return await _userService.GetUserById(id);
         }
 
-
-        /*
         [HttpPost]
-        public async Task<ActionResult<List<UserEntity>>> AddEntity(UserEntity user)
+        public async Task<UserEntity> AddEntity(UserEntity user)
         {
-           
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<List<UserEntity>>> UpdateEntity([FromBody] UserEntity userRequest)
-        {
-           
+            return await _userService.AddUser(user);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntity>>> DeleteEntityById(int id)
         {
-           
+            return await _userService.DeleteUser(id);
         }
-        */
+        
+        [HttpPut]
+        public async Task<ActionResult<List<UserEntity>>> UpdateEntity([FromBody] UserEntity userRequest)
+        {
+            return await _userService.EditUser(userRequest);
+        }
     }
 }

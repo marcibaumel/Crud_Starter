@@ -19,10 +19,17 @@ namespace BackendPartUpdated.API.DTO
 
         public UserEntity(BackendPartUpdated.DataManagment.Entities.UserEntity user)
         {
-            Id = user.Id;
-            Username = user.Username;
-            Email = user.Email;
-            Gender = user.Gender;
+            try
+            {
+                Id = user.Id;
+                Username = user.Username;
+                Email = user.Email;
+                Gender = user.Gender;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public UserEntity() { }
@@ -32,12 +39,10 @@ namespace BackendPartUpdated.API.DTO
     {
         public UserValidator()
         {
-
             RuleFor(t => t.Username).NotEmpty().WithMessage("Username is empty");
             RuleFor(t => t.Username.Trim()).MinimumLength(3).WithMessage("Username is too short");
             RuleFor(t => t.Username.Trim()).MaximumLength(15).WithMessage("Username is too long");
             RuleFor(t => t.Email.Trim()).EmailAddress().Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").WithMessage("Not good email format");
-
         }
     }
 }

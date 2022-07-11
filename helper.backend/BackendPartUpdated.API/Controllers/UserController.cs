@@ -13,39 +13,44 @@ namespace BackendPartUpdated.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IMediator _mediator;
+
+        public UserController(IUserService userService, IMediator mediator)
         {
             _userService = userService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserEntity>>> Get()
+        public async Task<ActionResult<List<UserEntityDto>>> Get()
         {
-            return await _userService.GetAllUser();
+            var userList = await _mediator.Send(new GetUserListQuery());
+            return _userService.userEntityConverter(userList);
         }
-
+        /*
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserEntity>> GetEntityById(int id)
+        public async Task<ActionResult<UserEntityDto>> GetEntityById(int id)
         {
             return await _userService.GetUserById(id);
         }
 
         [HttpPost]
-        public async Task<UserEntity> AddEntity(UserEntity user)
+        public async Task<UserEntityDto> AddEntity(UserEntityDto user)
         {
             return await _userService.AddUser(user);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<UserEntity>>> DeleteEntityById(int id)
+        public async Task<ActionResult<List<UserEntityDto>>> DeleteEntityById(int id)
         {
             return await _userService.DeleteUser(id);
         }
         
         [HttpPut]
-        public async Task<ActionResult<List<UserEntity>>> UpdateEntity([FromBody] UserEntity userRequest)
+        public async Task<ActionResult<List<UserEntityDto>>> UpdateEntity([FromBody] UserEntityDto userRequest)
         {
             return await _userService.EditUser(userRequest);
         }
+        */
     }
 }

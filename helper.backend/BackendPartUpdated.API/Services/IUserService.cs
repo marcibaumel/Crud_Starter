@@ -4,11 +4,11 @@ namespace BackendPartUpdated.API.Services
 {
     public interface IUserService
     {
-        List<UserEntity> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList);
-        Task<List<UserEntity>> GetAllUser();
-        Task<UserEntity> GetUserById(int id);
-        Task<UserEntity> AddUser(UserEntity userEntity);
-        Task<List<UserEntity>> DeleteUser(int id);
-        Task<List<UserEntity>> EditUser(UserEntity userEntity);
+        List<UserEntityDto> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList);
+        Task<List<UserEntityDto>> GetAllUser();
+        Task<UserEntityDto> GetUserById(int id);
+        Task<UserEntityDto> AddUser(UserEntityDto userEntity);
+        Task<List<UserEntityDto>> DeleteUser(int id);
+        Task<List<UserEntityDto>> EditUser(UserEntityDto userEntity);
     }
 }

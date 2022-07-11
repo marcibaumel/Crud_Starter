@@ -2,14 +2,14 @@
 
 namespace BackendPartUpdated.API.DTO
 {
-    public class UserEntity
+    public class UserEntityDto
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
 
-        public UserEntity(int id, string username, string email, string gender)
+        public UserEntityDto(int id, string username, string email, string gender)
         {
             Id = id;
             Username = username;
@@ -17,7 +17,7 @@ namespace BackendPartUpdated.API.DTO
             Gender = gender;
         }
 
-        public UserEntity(BackendPartUpdated.DataManagment.Entities.UserEntity user)
+        public UserEntityDto(BackendPartUpdated.DataManagment.Entities.UserEntity user)
         {
             try
             {
@@ -32,10 +32,10 @@ namespace BackendPartUpdated.API.DTO
             }
         }
 
-        public UserEntity() { }
+        public UserEntityDto() { }
     }
 
-    public class UserValidator : AbstractValidator<UserEntity>
+    public class UserValidator : AbstractValidator<UserEntityDto>
     {
         public UserValidator()
         {

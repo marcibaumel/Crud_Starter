@@ -14,43 +14,43 @@ namespace BackendPartUpdated.API.Services
             _mediator = mediator;
         }
 
-        public List<UserEntity> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList)
+        public List<UserEntityDto> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList)
         {
-            var convertedListUser = new List<UserEntity>();
+            var convertedListUser = new List<UserEntityDto>();
             foreach (BackendPartUpdated.DataManagment.Entities.UserEntity userEntity in userList)
             {
-                convertedListUser.Add(new UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+                convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
             }
 
             return convertedListUser;
         }
 
-        public async Task<List<UserEntity>> GetAllUser()
+        public async Task<List<UserEntityDto>> GetAllUser()
         {
             var userList = await _mediator.Send(new GetUserListQuery());
             return userEntityConverter(userList);
         }
 
-        public async Task<UserEntity> GetUserById(int id)
+        public async Task<UserEntityDto> GetUserById(int id)
         {
-            var user = new UserEntity(await _mediator.Send(new GetUserByIdQuery(id)));
+            var user = new UserEntityDto(await _mediator.Send(new GetUserByIdQuery(id)));
             return user;
         }
 
-        public async Task<UserEntity> AddUser(UserEntity userEntity)
+        public async Task<UserEntityDto> AddUser(UserEntityDto userEntity)
         {
             var convertedUser = new BackendPartUpdated.DataManagment.Entities.UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender);
-            var user = new UserEntity(await _mediator.Send(new AddUserCommand(convertedUser)));
+            var user = new UserEntityDto(await _mediator.Send(new AddUserCommand(convertedUser)));
             return user;
         }
 
-        public async Task<List<UserEntity>> DeleteUser(int id)
+        public async Task<List<UserEntityDto>> DeleteUser(int id)
         {
             var userList = await _mediator.Send(new DeleteUserCommand(id));
             return userEntityConverter(userList);
         }
 
-        public async Task<List<UserEntity>> EditUser(UserEntity userEntity)
+        public async Task<List<UserEntityDto>> EditUser(UserEntityDto userEntity)
         {
             var convertedUser = new BackendPartUpdated.DataManagment.Entities.UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender);
             var userList = await _mediator.Send(new EditUserCommand(convertedUser));

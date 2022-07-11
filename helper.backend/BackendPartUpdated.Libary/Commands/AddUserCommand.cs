@@ -1,4 +1,5 @@
-﻿using BackendPartUpdated.DataManagment.Entities;
+﻿using BackendPartUpdated.DataManagment.Dto;
+using BackendPartUpdated.DataManagment.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Commands
 {
-    public record AddUserCommand(UserEntity entity) : IRequest<UserEntity>
+    public record AddUserCommand(CreateUserEntityDto entity) : IRequest<UserEntityDto>
     {
     }
 }

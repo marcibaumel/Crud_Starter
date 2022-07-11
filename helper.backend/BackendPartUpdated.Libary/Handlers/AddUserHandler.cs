@@ -1,5 +1,6 @@
 ﻿using BackendPartUpdated.DataManagment.Commands;
 using BackendPartUpdated.DataManagment.Data;
+using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Entities;
 using MediatR;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Handlers
 {
-    public class AddUserHandler : IRequestHandler<AddUserCommand, UserEntity>
+    public class AddUserHandler : IRequestHandler<AddUserCommand, UserEntityDto>
     {
         private readonly IDataRepository _dataRepository;
 
@@ -19,9 +20,13 @@ namespace BackendPartUpdated.DataManagment.Handlers
             _dataRepository = dataRepository;
         }
 
-        public Task<UserEntity> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserEntityDto> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_dataRepository.AddUser(request.entity));
+            var convertedUser = new UserEntity(request.entity.Username, request.entity.Email, request.entity.Gender);
+            var user = await Task.FromResult(_dataRepository.AddUser(convertedUser));
+            return new UserEntityDto(user);
         }
+
+        
     }
 }

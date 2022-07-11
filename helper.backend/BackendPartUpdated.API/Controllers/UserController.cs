@@ -1,6 +1,6 @@
-﻿
-using BackendPartUpdated.API.DTO;
-using BackendPartUpdated.API.Services;
+﻿using BackendPartUpdated.API.Services;
+using BackendPartUpdated.DataManagment.Commands;
+using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,40 +12,41 @@ namespace BackendPartUpdated.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IMediator _mediator;
 
-        public UserController(IUserService userService, IMediator mediator)
+        public UserController(IMediator mediator)
         {
-            _userService = userService;
             _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<UserEntityDto>>> Get()
         {
-            var userList = await _mediator.Send(new GetUserListQuery());
-            return _userService.userEntityConverter(userList);
+            return await _mediator.Send(new GetUserListQuery());
+            
         }
-        /*
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEntityDto>> GetEntityById(int id)
         {
-            return await _userService.GetUserById(id);
+            return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
+        
         [HttpPost]
-        public async Task<UserEntityDto> AddEntity(UserEntityDto user)
+        public async Task<UserEntityDto> AddEntity(CreateUserEntityDto user)
         {
-            return await _userService.AddUser(user);
+            return await _mediator.Send(new AddUserCommand(user));
         }
 
+        
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntityDto>>> DeleteEntityById(int id)
         {
-            return await _userService.DeleteUser(id);
+            return await _mediator.Send(new DeleteUserCommand(id));
         }
         
+        /*
         [HttpPut]
         public async Task<ActionResult<List<UserEntityDto>>> UpdateEntity([FromBody] UserEntityDto userRequest)
         {

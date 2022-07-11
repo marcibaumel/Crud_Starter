@@ -23,7 +23,6 @@ namespace BackendPartUpdated.API.Controllers
         public async Task<ActionResult<List<UserEntityDto>>> Get()
         {
             return await _mediator.Send(new GetUserListQuery());
-            
         }
 
         [HttpGet("{id}")]
@@ -32,13 +31,11 @@ namespace BackendPartUpdated.API.Controllers
             return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
-        
         [HttpPost]
         public async Task<UserEntityDto> AddEntity(CreateUserEntityDto user)
         {
             return await _mediator.Send(new AddUserCommand(user));
         }
-
         
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntityDto>>> DeleteEntityById(int id)
@@ -46,12 +43,10 @@ namespace BackendPartUpdated.API.Controllers
             return await _mediator.Send(new DeleteUserCommand(id));
         }
         
-        /*
         [HttpPut]
         public async Task<ActionResult<List<UserEntityDto>>> UpdateEntity([FromBody] UserEntityDto userRequest)
         {
-            return await _userService.EditUser(userRequest);
+            return await _mediator.Send(new EditUserCommand(userRequest));
         }
-        */
     }
 }

@@ -8,7 +8,6 @@ namespace BackendPartUpdated.API.Services
 {
     public class UserServices : IUserService
     {
-        
         private readonly IMediator _mediator;
 
         public UserServices(IMediator mediator)
@@ -16,7 +15,6 @@ namespace BackendPartUpdated.API.Services
             _mediator = mediator;
         }
         
-
         public List<UserEntityDto> userEntityConverter(List<BackendPartUpdated.DataManagment.Entities.UserEntity> userList)
         {
             var convertedListUser = new List<UserEntityDto>();
@@ -26,14 +24,6 @@ namespace BackendPartUpdated.API.Services
             }
 
             return convertedListUser;
-        }
-
-
-        public async Task<List<UserEntityDto>> EditUser(UserEntityDto userEntity)
-        {
-            var convertedUser = new BackendPartUpdated.DataManagment.Entities.UserEntity(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender);
-            var userList = await _mediator.Send(new EditUserCommand(convertedUser));
-            return userEntityConverter(userList);
         }
     }
 }

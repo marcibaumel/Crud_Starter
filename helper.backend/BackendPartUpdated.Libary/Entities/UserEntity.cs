@@ -24,7 +24,12 @@ namespace BackendPartUpdated.DataManagment.Entities
             Gender = gender;
         }
     }
-
+    /*
+     * FluenValidation helye vagy a dto van validálva
+     * Dto helye
+     * Service helye
+     * Mappa átszervezés
+     */
     public class UserValidator : AbstractValidator<UserEntity>
     {
         public UserValidator()

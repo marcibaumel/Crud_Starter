@@ -1,5 +1,6 @@
 ﻿using BackendPartUpdated.DataManagment.Commands;
 using BackendPartUpdated.DataManagment.Dto;
+using BackendPartUpdated.DataManagment.Handlers;
 using BackendPartUpdated.DataManagment.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,9 @@ namespace BackendPartUpdated.API.Controllers
         }
 
         [HttpPost]
-        public async Task<UserEntityDto> AddEntity(CreateUserEntityDto user)
+        public async Task<UserEntityDto> AddEntity(AddUserCommand user)
         {
-            return await _mediator.Send(new AddUserCommand(user));
+            return await _mediator.Send(user);
         }
         
         [HttpDelete("{id}")]

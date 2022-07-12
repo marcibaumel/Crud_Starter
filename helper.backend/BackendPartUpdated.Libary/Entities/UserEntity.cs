@@ -25,7 +25,7 @@ namespace BackendPartUpdated.DataManagment.Entities
         }
     }
     /*
-     * FluenValidation helye vagy a dto van validálva
+     * FluenValidation helye vagy a dto van validálva -> dto-ba bele
      * Dto helye
      * Service helye
      * Mappa átszervezés

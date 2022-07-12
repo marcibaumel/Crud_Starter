@@ -6,6 +6,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
+/*
+ * TODO:
+ * - mediatoR a controllerbe
+ * - miert nem lehet a mediatoR-be még egy mediatoR hivas
+ * - DataContext egy servicebol
+ */
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

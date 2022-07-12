@@ -26,6 +26,7 @@ namespace BackendPartUpdated.DataManagment.Handlers
             
             //TODO: if null the user exception
             var user = userList.FirstOrDefault(u => u.Id == request.user.Id);
+
             user.Username = request.user.Username;
             user.Email = request.user.Email;
             user.Gender = request.user.Gender;
@@ -37,6 +38,7 @@ namespace BackendPartUpdated.DataManagment.Handlers
             {
                 convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
             }
+
             return convertedListUser;
         }
     }

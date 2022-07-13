@@ -14,8 +14,6 @@ namespace BackendPartUpdated.DataManagment.Common.Models
 
         public static Result<T> True<T>(string[] messages, T data = default) =>
           new(data, messages, true);
-
-
     }
 
     public class Result<T> : IResult

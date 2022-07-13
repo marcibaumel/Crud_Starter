@@ -1,7 +1,6 @@
-﻿using BackendPartUpdated.DataManagment.Commands;
-using BackendPartUpdated.DataManagment.Dto;
-using BackendPartUpdated.DataManagment.Handlers;
-using BackendPartUpdated.DataManagment.Queries;
+﻿using BackendPartUpdated.DataManagment.Dto;
+using BackendPartUpdated.DataManagment.Handlers.Commands;
+using BackendPartUpdated.DataManagment.Handlers.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

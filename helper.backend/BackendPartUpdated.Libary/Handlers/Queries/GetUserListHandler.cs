@@ -1,5 +1,4 @@
-﻿using BackendPartUpdated.DataManagment.Commands;
-using BackendPartUpdated.DataManagment.Data;
+﻿using BackendPartUpdated.DataManagment.Data;
 using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Entities;
 using MediatR;
@@ -9,21 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendPartUpdated.DataManagment.Handlers
+namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, List<UserEntityDto>>
+
+    public class GetUserListQuery : IRequest<List<UserEntityDto>>
+    {
+
+    }
+
+    public class GetUserListHandler : IRequestHandler<GetUserListQuery, List<UserEntityDto>>
     {
         private readonly IDataRepository _dataRepository;
 
-        public DeleteUserHandler(IDataRepository dataRepository)
+        public GetUserListHandler(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
-        public async Task<List<UserEntityDto>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<List<UserEntityDto>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
         {
-            //TODO: if null the user exception
-            var userList = await _dataRepository.DeleteUser(request.id);
+            var userList = await Task.FromResult(_dataRepository.GetUsers());
             var convertedListUser = new List<UserEntityDto>();
 
             foreach (UserEntity userEntity in userList)

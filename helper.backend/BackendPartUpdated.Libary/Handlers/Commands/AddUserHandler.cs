@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendPartUpdated.DataManagment.Handlers
+namespace BackendPartUpdated.DataManagment.Handlers.Commands
 {
     public class AddUserCommand : IRequest<UserEntityDto>
     {
@@ -18,6 +18,7 @@ namespace BackendPartUpdated.DataManagment.Handlers
         public string Email { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
 
+        /*
         public AddUserCommand(int id, string username, string email, string gender)
         {
             Username = username;
@@ -40,6 +41,7 @@ namespace BackendPartUpdated.DataManagment.Handlers
         }
 
         public AddUserCommand() { }
+        */
     }
 
 
@@ -75,7 +77,7 @@ namespace BackendPartUpdated.DataManagment.Handlers
             var user = await Task.FromResult(_dataRepository.AddUser(convertedUser));
             return new UserEntityDto(user);
         }
-  
+
     }
 
     public class AddUserValidator : AbstractValidator<AddUserCommand>

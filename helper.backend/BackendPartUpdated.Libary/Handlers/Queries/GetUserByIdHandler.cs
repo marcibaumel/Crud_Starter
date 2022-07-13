@@ -1,7 +1,6 @@
 ﻿using BackendPartUpdated.DataManagment.Data;
 using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Entities;
-using BackendPartUpdated.DataManagment.Queries;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace BackendPartUpdated.DataManagment.Handlers
+namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
+    public record GetUserByIdQuery(int id) : IRequest<UserEntityDto> 
+    { 
+    }
     public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserEntityDto>
     {
         private readonly IDataRepository _dataRepository;
@@ -34,7 +36,6 @@ namespace BackendPartUpdated.DataManagment.Handlers
             var user = userList.FirstOrDefault(u => u.Id == request.id);
             var userDto = new UserEntityDto(user);
             return userDto;
-
         }
     }
 }

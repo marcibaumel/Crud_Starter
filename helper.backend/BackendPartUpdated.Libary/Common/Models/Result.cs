@@ -7,22 +7,13 @@ using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Common.Models
 {
-    public static class Result
-    {
-        public static Result<T> Fail<T>(string[] messages, T data = default) =>
-            new(data, messages, true);
-
-        public static Result<T> True<T>(string[] messages, T data = default) =>
-          new(data, messages, true);
-    }
-
-    public class Result<T> : IResult
+    public class Result<T>
     {
         public T? Data { get; set; }
-        public string[] Messages { get; set; }
+        public string Messages { get; set; }
         public bool HasError { get; set; }
 
-        public Result(T data, string[] msgs, bool hasError)
+        public Result(T data, string msgs, bool hasError)
         {
             Data = data;
             Messages = msgs;
@@ -33,5 +24,6 @@ namespace BackendPartUpdated.DataManagment.Common.Models
         {
             Data = data;
         }
+        public Result() { }
     }
 }

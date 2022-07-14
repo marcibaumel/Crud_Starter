@@ -1,4 +1,6 @@
-﻿using BackendPartUpdated.DataManagment.Data;
+﻿using BackendPartUpdated.DataManagment.Common.Interfaces;
+using BackendPartUpdated.DataManagment.Common.Models;
+using BackendPartUpdated.DataManagment.Data;
 using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Entities;
 using MediatR;
@@ -11,12 +13,12 @@ using System.Threading.Tasks;
 namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
 
-    public class GetUserListQuery : IRequest<List<UserEntityDto>>
+    public class GetUserListQuery : IRequest<Result<List<UserEntityDto>>>
     {
 
     }
 
-    public class GetUserListHandler : IRequestHandler<GetUserListQuery, List<UserEntityDto>>
+    public class GetUserListHandler : IRequestHandler<GetUserListQuery, Result<List<UserEntityDto>>>
     {
         private readonly IDataRepository _dataRepository;
 
@@ -25,7 +27,7 @@ namespace BackendPartUpdated.DataManagment.Handlers.Queries
             _dataRepository = dataRepository;
         }
 
-        public async Task<List<UserEntityDto>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<UserEntityDto>>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
         {
             var userList = await Task.FromResult(_dataRepository.GetUsers());
             var convertedListUser = new List<UserEntityDto>();
@@ -34,8 +36,13 @@ namespace BackendPartUpdated.DataManagment.Handlers.Queries
             {
                 convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
             }
-
-            return convertedListUser;
+            var result = new Result<List<UserEntityDto>>(convertedListUser);
+            if(result.Data.Count == 0 || result.Data == null)
+            {
+                result.HasError = true;
+                result.Messages =("There is no data in the database");
+            }
+            return result;
         }
     }
 }

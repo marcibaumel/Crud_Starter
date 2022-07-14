@@ -21,13 +21,23 @@ namespace BackendPartUpdated.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserEntityDto>>> Get()
         {
-            return await _mediator.Send(new GetUserListQuery());
+            var data =  await _mediator.Send(new GetUserListQuery());
+            if (data.HasError)
+            {
+                return BadRequest(data.Messages);
+            }
+            return Ok(data.Data);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEntityDto>> GetEntityById(int id)
         {
-            return await _mediator.Send(new GetUserByIdQuery(id));
+            var data = await _mediator.Send(new GetUserByIdQuery(id));
+            if (data.HasError)
+            {
+                return BadRequest(data.Messages);
+            }
+            return Ok(data.Data);
         }
 
         [HttpPost]
@@ -45,7 +55,12 @@ namespace BackendPartUpdated.API.Controllers
         [HttpPut]
         public async Task<ActionResult<List<UserEntityDto>>> UpdateEntity([FromBody] UserEntityDto userRequest)
         {
-            return await _mediator.Send(new EditUserCommand(userRequest));
+            var data = await _mediator.Send(new EditUserCommand(userRequest));
+            if (data.HasError)
+            {
+                return BadRequest(data.Messages);
+            }
+            return Ok(data.Data);
         }
     }
 }

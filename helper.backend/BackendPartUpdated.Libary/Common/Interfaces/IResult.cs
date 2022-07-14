@@ -8,14 +8,8 @@ namespace BackendPartUpdated.DataManagment.Common.Interfaces
 {
     public interface IResult
     {
-        /// <summary>
-        /// Gets a value indicating whether the result was successful.
-        /// </summary>
+        T Data<T>(T value);
         bool HasError { get; }
-
-        /// <summary>
-        /// Gets the error messages, if any.
-        /// </summary>
-        string[] Messages { get; }
+        string Message { get; }
     }
 }

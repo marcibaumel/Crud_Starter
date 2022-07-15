@@ -28,47 +28,44 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
 
         public async Task<Result<List<UserEntityDto>>> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {
-            var userList = await Task.FromResult(_dataRepository.GetUsers());
-
-            //TODO: if null the user exception
-            var user = userList.FirstOrDefault(u => u.Id == request.user.Id);
-            var result = new Result<List<UserEntityDto>>();
-
-            if (user != null)
+            //Check if the user exsisting with the given id
+            var user = await _dataRepository.GetUserById(request.Id);
+            if (user is null)
+            {
+                return new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);  
+            }
+            //If there is a user with the given id, change the user data with the requested parameteres
+            else
             {
                 user.Username = request.user.Username;
                 user.Email = request.user.Email;
                 user.Gender = request.user.Gender;
             }
-            else
-            {
-                result = new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);
-                return result;
-            }
-           
-
+            
+            //Fluent validation check
             EditUserValidator validator = new EditUserValidator();
-
             ValidationResult validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
-                result = new Result<List<UserEntityDto>>(null, validationResult.Errors.ToString(), true);
-                return result;
+                //If there is a error send back an empty list
+                return new Result<List<UserEntityDto>>(null, string.Join(", ", validationResult.Errors), true);   
             }
 
             var editedUserList = await _dataRepository.EditUser(user);
 
+            //Give back the updated UserList
             var convertedListUser = new List<UserEntityDto>();
             foreach (UserEntity userEntity in editedUserList)
             {
+                //Convert UserEntity to UserEntityDto
                 convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
             }
-
-            result = new Result<List<UserEntityDto>>(convertedListUser);
-            if (result.Data.Count == 0 || result.Data == null)
+            
+            var result = new Result<List<UserEntityDto>>(convertedListUser);
+            if (result.Data is null)
             {
-                result = new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);
-                return result;
+                //If there is no data to send back, send back an empty list
+                return new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);  
             }
            
             return result;

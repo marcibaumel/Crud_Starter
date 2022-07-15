@@ -29,7 +29,7 @@ namespace BackendPartUpdated.DataManagment.Data
 
             if (user == null)
             {
-                return _context.Users.ToList();
+                return null;
             }
             else
             {
@@ -57,9 +57,21 @@ namespace BackendPartUpdated.DataManagment.Data
             };
         }
 
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if(user is null)
+            {
+                return null;
+            }
+            return user;
+        }
+
         public List<UserEntity> GetUsers()
         {
             return _context.Users.ToList();
         }
+        //GetById, IEnumarable, IQuarable
     }
 }

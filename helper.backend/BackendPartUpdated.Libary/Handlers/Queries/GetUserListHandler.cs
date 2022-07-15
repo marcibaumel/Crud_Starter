@@ -12,10 +12,8 @@ using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
-
     public class GetUserListQuery : IRequest<Result<List<UserEntityDto>>>
     {
-
     }
 
     public class GetUserListHandler : IRequestHandler<GetUserListQuery, Result<List<UserEntityDto>>>
@@ -36,11 +34,11 @@ namespace BackendPartUpdated.DataManagment.Handlers.Queries
             {
                 convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
             }
+
             var result = new Result<List<UserEntityDto>>(convertedListUser);
-            if(result.Data.Count == 0 || result.Data == null)
+            if(result.Data == null)
             {
-                result.HasError = true;
-                result.Messages =("There is no data in the database");
+                return new Result<List<UserEntityDto>>(null, "There is no data", true);
             }
             return result;
         }

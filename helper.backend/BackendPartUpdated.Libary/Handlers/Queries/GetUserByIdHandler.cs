@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
-    public record GetUserByIdQuery(int id) : IRequest<Result<UserEntityDto>> 
+    public record GetUserByIdQuery(int Id) : IRequest<Result<UserEntityDto>> 
     { 
     }
     public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, Result<UserEntityDto>>
@@ -27,26 +27,12 @@ namespace BackendPartUpdated.DataManagment.Handlers.Queries
 
         public async Task<Result<UserEntityDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var userList = await Task.FromResult(_dataRepository.GetUsers());
-            var convertedListUser = new List<UserEntityDto>();
-            var result = new Result<UserEntityDto>();
-
-            foreach (UserEntity userEntity in userList)
+            var user = await _dataRepository.GetUserById(request.Id);
+            if (user is null)
             {
-                convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+                return new Result<UserEntityDto>(null, "There is no data with this id", true);
             }
-           
-            var user = userList.FirstOrDefault(u => u.Id == request.id);
-            if (!(user is null))
-            {
-                result = new Result<UserEntityDto>(new UserEntityDto(user));
-            }
-            else
-            {
-                result = new Result<UserEntityDto>(null, "There is no data with this Id in the database", true);
-            }
-            
-            return result;
+            return new Result<UserEntityDto>(new UserEntityDto(user));
         }
     }
 }

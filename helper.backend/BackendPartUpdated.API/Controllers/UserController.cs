@@ -41,15 +41,25 @@ namespace BackendPartUpdated.API.Controllers
         }
 
         [HttpPost]
-        public async Task<UserEntityDto> AddEntity(AddUserCommand user)
+        public async Task<ActionResult<UserEntityDto>> AddEntity(AddUserCommand user)
         {
-            return await _mediator.Send(user);
+            var data = await _mediator.Send(user);
+            if (data.HasError)
+            {
+                return BadRequest(data.Messages);
+            }
+            return Ok(data.Data);
         }
         
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntityDto>>> DeleteEntityById(int id)
         {
-            return await _mediator.Send(new DeleteUserCommand(id));
+            var data = await _mediator.Send(new DeleteUserCommand(id));
+            if (data.HasError)
+            {
+                return BadRequest(data.Messages);
+            }
+            return Ok(data.Data);
         }
         
         [HttpPut]

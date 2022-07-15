@@ -1,4 +1,5 @@
-﻿using BackendPartUpdated.DataManagment.Data;
+﻿using BackendPartUpdated.DataManagment.Common.Models;
+using BackendPartUpdated.DataManagment.Data;
 using BackendPartUpdated.DataManagment.Dto;
 using BackendPartUpdated.DataManagment.Entities;
 using FluentValidation;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Handlers.Commands
 {
-    public class AddUserCommand : IRequest<UserEntityDto>
+    public class AddUserCommand : IRequest<Result<UserEntityDto>>
     {
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -45,7 +46,7 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
     }
 
 
-    public class AddUserHandler : IRequestHandler<AddUserCommand, UserEntityDto>
+    public class AddUserHandler : IRequestHandler<AddUserCommand, Result<UserEntityDto>>
     {
         /* 
          * querry
@@ -60,7 +61,7 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
             _dataRepository = dataRepository;
         }
 
-        public async Task<UserEntityDto> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UserEntityDto>> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
             //propty name uppercase
             //mediator behaviors
@@ -71,13 +72,13 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
             if (!results.IsValid)
             {
                 var errors = results.Errors;
+                return new Result<UserEntityDto>(null, string.Join(", ", errors), true);
             }
 
             var convertedUser = new UserEntity(request.Username, request.Email, request.Gender);
             var user = await Task.FromResult(_dataRepository.AddUser(convertedUser));
-            return new UserEntityDto(user);
+            return new Result<UserEntityDto>(new UserEntityDto(user));
         }
-
     }
 
     public class AddUserValidator : AbstractValidator<AddUserCommand>

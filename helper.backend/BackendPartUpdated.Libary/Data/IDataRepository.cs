@@ -1,9 +1,4 @@
 ﻿using BackendPartUpdated.DataManagment.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BackendPartUpdated.DataManagment.Data
 {
@@ -11,8 +6,8 @@ namespace BackendPartUpdated.DataManagment.Data
     {
         List<UserEntity> GetUsers();
         UserEntity AddUser(UserEntity user);
-        Task<List<UserEntity>> DeleteUser(int id);
-        Task<List<UserEntity>> EditUser(UserEntity userEntity);
+        Task<bool> DeleteUser(int id);
         Task<UserEntity> GetUserById (int id);
+        Task SaveChangesAsync();
     }
 }

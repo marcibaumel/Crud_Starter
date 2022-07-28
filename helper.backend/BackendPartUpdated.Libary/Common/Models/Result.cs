@@ -24,6 +24,8 @@ namespace BackendPartUpdated.DataManagment.Common.Models
         {
             Data = data;
         }
-        public Result() { }
+        public Result() 
+        { 
+        }
     }
 }

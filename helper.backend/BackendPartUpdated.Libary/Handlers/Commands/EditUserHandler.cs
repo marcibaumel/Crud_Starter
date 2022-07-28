@@ -9,15 +9,9 @@ using MediatR;
 namespace BackendPartUpdated.DataManagment.Handlers.Commands
 {
 
-    public record EditUserCommand(UserEntityDto user) : IRequest<Result<List<UserEntityDto>>>
-    {
-        public int Id { get; set; } = user.Id;
-        public string Username { get; set; } = user.Username;
-        public string Email { get; set; } = user.Email;
-        public string Gender { get; set; } = user.Gender;
-    }
+    public record EditUserCommand(int Id, string Username, string Email, string Gender) : IRequest<Result<bool>>;
 
-    public class EditUserHandler : IRequestHandler<EditUserCommand, Result<List<UserEntityDto>>>
+    public class EditUserHandler : IRequestHandler<EditUserCommand, Result<bool>>
     {
         private readonly IDataRepository _dataRepository;
 
@@ -26,49 +20,49 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
             _dataRepository = dataRepository;
         }
 
-        public async Task<Result<List<UserEntityDto>>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {
-            //Check if the user exsisting with the given id
-            var user = await _dataRepository.GetUserById(request.Id);
-            if (user is null)
-            {
-                return new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);  
-            }
-            //If there is a user with the given id, change the user data with the requested parameteres
-            else
-            {
-                user.Username = request.user.Username;
-                user.Email = request.user.Email;
-                user.Gender = request.user.Gender;
-            }
-            
             //Fluent validation check
-            EditUserValidator validator = new EditUserValidator();
-            ValidationResult validationResult = validator.Validate(request);
+            var validator = new EditUserValidator();
+            var validationResult = validator.Validate(request);
+
             if (!validationResult.IsValid)
             {
                 //If there is a error send back an empty list
-                return new Result<List<UserEntityDto>>(null, string.Join(", ", validationResult.Errors), true);   
+                return new Result<bool>(false, string.Join(", ", validationResult.Errors), true);
             }
 
-            var editedUserList = await _dataRepository.EditUser(user);
+            //Check if the user exsisting with the given id
+            var user = await _dataRepository.GetUserById(request.Id);
 
-            //Give back the updated UserList
-            var convertedListUser = new List<UserEntityDto>();
-            foreach (UserEntity userEntity in editedUserList)
+            if (user is null)
             {
-                //Convert UserEntity to UserEntityDto
-                convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+                return new Result<bool>(false, "There is no user with the given Id", true);
             }
-            
-            var result = new Result<List<UserEntityDto>>(convertedListUser);
-            if (result.Data is null)
-            {
-                //If there is no data to send back, send back an empty list
-                return new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);  
-            }
-           
-            return result;
+
+            user.Username = request.Username;
+            user.Email = request.Email;
+            user.Gender = request.Gender;
+
+            await _dataRepository.SaveChangesAsync();
+
+            return new Result<bool>(true);
+
+            ////LINQ
+            //foreach (var userEntity in editedUserList)
+            //{
+            //    //Convert UserEntity to UserEntityDto
+            //    convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+            //}
+
+            //var convertedListUser = editedUserList.Select(x => new UserEntityDto(x.Id, x.Username, x.Email, x.Gender)).ToList();
+
+            //Felesleges, LINQ, Reocrd class interface vs class, Edit, feladatok sorrende
+            //if (result.Data is null)
+            //{
+            //    //If there is no data to send back, send back an empty list
+            //    return new Result<List<UserEntityDto>>(null, "There is no data with this Id in the database", true);  
+            //}
         }
     }
     

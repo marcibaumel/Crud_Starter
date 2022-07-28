@@ -18,14 +18,17 @@ namespace BackendPartUpdated.API.Controllers
             _mediator = mediator;
         }
 
+      
         [HttpGet]
         public async Task<ActionResult<List<UserEntityDto>>> Get()
         {
-            var data =  await _mediator.Send(new GetUserListQuery());
+            var data =  await _mediator.Send(new GetUsersListQuery());
+
             if (data.HasError)
             {
                 return BadRequest(data.Messages);
             }
+
             return Ok(data.Data);
         }
 
@@ -33,10 +36,12 @@ namespace BackendPartUpdated.API.Controllers
         public async Task<ActionResult<UserEntityDto>> GetEntityById(int id)
         {
             var data = await _mediator.Send(new GetUserByIdQuery(id));
+
             if (data.HasError)
             {
                 return BadRequest(data.Messages);
             }
+
             return Ok(data.Data);
         }
 
@@ -44,32 +49,38 @@ namespace BackendPartUpdated.API.Controllers
         public async Task<ActionResult<UserEntityDto>> AddEntity(AddUserCommand user)
         {
             var data = await _mediator.Send(user);
+
             if (data.HasError)
             {
                 return BadRequest(data.Messages);
             }
+
             return Ok(data.Data);
         }
         
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<UserEntityDto>>> DeleteEntityById(int id)
+        public async Task<ActionResult<bool>> DeleteEntityById(int id)
         {
             var data = await _mediator.Send(new DeleteUserCommand(id));
+
             if (data.HasError)
             {
                 return BadRequest(data.Messages);
             }
+
             return Ok(data.Data);
         }
         
         [HttpPut]
-        public async Task<ActionResult<List<UserEntityDto>>> UpdateEntity([FromBody] UserEntityDto userRequest)
+        public async Task<ActionResult<bool>> UpdateEntity([FromBody] EditUserCommand userRequest)
         {
-            var data = await _mediator.Send(new EditUserCommand(userRequest));
+            var data = await _mediator.Send(userRequest);
+
             if (data.HasError)
             {
                 return BadRequest(data.Messages);
             }
+
             return Ok(data.Data);
         }
     }

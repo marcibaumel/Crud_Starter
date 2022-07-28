@@ -14,9 +14,8 @@ using System.Web.Mvc;
 
 namespace BackendPartUpdated.DataManagment.Handlers.Queries
 {
-    public record GetUserByIdQuery(int Id) : IRequest<Result<UserEntityDto>> 
-    { 
-    }
+    public record GetUserByIdQuery(int Id) : IRequest<Result<UserEntityDto>>; 
+
     public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, Result<UserEntityDto>>
     {
         private readonly IDataRepository _dataRepository;
@@ -28,10 +27,12 @@ namespace BackendPartUpdated.DataManagment.Handlers.Queries
         public async Task<Result<UserEntityDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var user = await _dataRepository.GetUserById(request.Id);
+
             if (user is null)
             {
                 return new Result<UserEntityDto>(null, "There is no data with this id", true);
             }
+
             return new Result<UserEntityDto>(new UserEntityDto(user));
         }
     }

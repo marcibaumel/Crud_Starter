@@ -1,4 +1,5 @@
 ﻿using BackendPartUpdated.DataManagment.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,58 +21,40 @@ namespace BackendPartUpdated.DataManagment.Data
         {
             _context.Users.Add(user);
             _context.SaveChanges();
+
             return user;
         }
 
-        public async Task<List<UserEntity>> DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
-            if (user == null)
+            if (user is null)
             {
-                return null;
+                return false;
             }
             else
             {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
-                return _context.Users.ToList();
-            }
-        }
 
-        public async Task<List<UserEntity>> EditUser(UserEntity userRequest)
-        {
-            var user = await _context.Users.FindAsync(userRequest.Id);
-
-            if (user == null)
-            {
-                return _context.Users.ToList();
+                return true;
             }
-            else
-            {
-                user.Username = userRequest.Username;
-                user.Email = userRequest.Email;
-                user.Gender = userRequest.Gender;
-                await _context.SaveChangesAsync();
-                return _context.Users.ToList();
-            };
         }
 
         public async Task<UserEntity> GetUserById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if(user is null)
-            {
-                return null;
-            }
-            return user;
+            return await _context.Users.FindAsync(id);
         }
 
         public List<UserEntity> GetUsers()
         {
             return _context.Users.ToList();
         }
-        //GetById, IEnumarable, IQuarable
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

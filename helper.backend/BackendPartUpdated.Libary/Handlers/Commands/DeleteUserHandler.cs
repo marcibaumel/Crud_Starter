@@ -6,10 +6,10 @@ using MediatR;
 
 namespace BackendPartUpdated.DataManagment.Handlers.Commands
 {
-    public record DeleteUserCommand(int id) : IRequest<Result<List<UserEntityDto>>>
+    public record DeleteUserCommand(int Id) : IRequest<Result<bool>>
     {
     }
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Result<List<UserEntityDto>>>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Result<bool>>
     {
         private readonly IDataRepository _dataRepository;
 
@@ -18,21 +18,16 @@ namespace BackendPartUpdated.DataManagment.Handlers.Commands
             _dataRepository = dataRepository;
         }
 
-        public async Task<Result<List<UserEntityDto>>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var userList = await _dataRepository.DeleteUser(request.id);
-            if(userList is null)
+            if(await _dataRepository.DeleteUser(request.Id))
             {
-                return new Result<List<UserEntityDto>>(null, "There is no data with this id", true);
+                return new Result<bool>(true);
             }
-            var convertedListUser = new List<UserEntityDto>();
-
-            foreach (UserEntity userEntity in userList)
+            else
             {
-                convertedListUser.Add(new UserEntityDto(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.Gender));
+                return new Result<bool>(false, "There is no user with the given Id", true);
             }
-
-            return new Result<List<UserEntityDto>>(convertedListUser);
         }
     }
 }
